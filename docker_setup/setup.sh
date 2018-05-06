@@ -36,7 +36,7 @@ echo "${DOMAIN}" > /.django
 # Mover e ajustar diretórios do código
 __move_dir() {
 mv /${DOMAIN}/codigo /${DOMAIN}/code/${HOST}
-mv /${DOMAIN}/cfg/.env /${DOMAIN}/code/${HOST}/
+mv /${DOMAIN}/cfg/python-env /${DOMAIN}/code/${HOST}/.env
 unzip /${DOMAIN}/cfg/static.zip -d /${DOMAIN}/code/${HOST}/app/
 chown -R ${SSH_USER}:nginx /${DOMAIN}/code/${HOST}/
 chmod +x /${DOMAIN}/code/

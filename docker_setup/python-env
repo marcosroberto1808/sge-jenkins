@@ -1,0 +1,4 @@
+SECRET_KEY=xre7v=jd=d@y=j_#c5z6vz#jqn_r=iiz66gd#sve#pul5v&szn
+DEBUG=True
+ALLOWED_HOSTS=DOMAIN
+DATABASE=postgres://DB_USER:DB_PASS@DB_HOST:5432/DB_NAME
