@@ -1,0 +1,29 @@
+# build container com parâmetros WINDOWS POWER SHELL
+
+docker build -t sge-jenkins `
+--build-arg AMBIENTE=homolog `
+--build-arg APPNAME=sge-homolog `
+--build-arg DB_HOST=192.168.10.254 `
+--build-arg DB_NAME=sge `
+--build-arg DB_USER=sge `
+--build-arg DB_PASS=dpgeceti  .
+
+
+#iniciar contaier após build
+
+    docker run -h sge-homolog -d -p 8080:8080 -p 422:22 --name=sge-homolog sge-jenkins
+
+
+Acessar o terminal do container diretamente com o comando abaixo:
+
+    docker exec -it sge-homolog bash
+
+Apagar containers:
+
+    docker stop sge-homolog ; docker rm sge-homolog 
+
+    containers parados:
+    docker rm @(docker ps -aq)
+
+    todas as imagems:
+    docker rmi @(docker images -aq)
