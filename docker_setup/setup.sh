@@ -16,11 +16,13 @@ sed -i "s/APPNAME/${APPNAME}/g" /${DOMAIN}/cfg/*
 sed -i "s/SSH_USER/${SSH_USER}/g" /${DOMAIN}/cfg/*
 
 # Ajustes do arquivo .ENV
-sed -i "s/DB_USER/${DB_USER}/g" /${DOMAIN}/cfg/python-env
-sed -i "s/DB_PASS/${DB_PASS}/g" /${DOMAIN}/cfg/python-env
-sed -i "s/DB_HOST/${DB_HOST}/g" /${DOMAIN}/cfg/python-env
-sed -i "s/DB_NAME/${DB_NAME}/g" /${DOMAIN}/cfg/python-env
-sed -i "s/APP_DOMINIO/${DOMAIN}/g" /${DOMAIN}/cfg/python-env
+sed -i "s/ALLOWED_HOSTS=APP_DOMINIO/ALLOWED_HOSTS=${DOMAIN}/g" /${DOMAIN}/cfg/python-env
+sed -i "s/DATABASE=postgres://DB_USER:DB_PASS@DB_HOST:5432/DB_NAME/DATABASE=postgres://${DB_USER}:${DB_PASS}@${DB_HOST}:5432/${DB_NAME}/g" /${DOMAIN}/cfg/python-env
+# sed -i "s/DB_USER/${DB_USER}/g" /${DOMAIN}/cfg/python-env
+# sed -i "s/DB_PASS/${DB_PASS}/g" /${DOMAIN}/cfg/python-env
+# sed -i "s/DB_HOST/${DB_HOST}/g" /${DOMAIN}/cfg/python-env
+# sed -i "s/DB_NAME/${DB_NAME}/g" /${DOMAIN}/cfg/python-env
+# sed -i "s/APP_DOMINIO/${DOMAIN}/g" /${DOMAIN}/cfg/python-env
 
 # Configurar local para o uwsgi socket
 mkdir /${DOMAIN}/run/
