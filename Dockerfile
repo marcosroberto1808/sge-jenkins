@@ -42,7 +42,7 @@ RUN mkdir -p /${DOMAIN}/codigo/
 COPY ./docker_setup/nginx.conf /${DOMAIN}/cfg/
 COPY ./docker_setup/django.params /${DOMAIN}/cfg/
 COPY ./docker_setup/django.ini /${DOMAIN}/cfg/
-COPY ./docker_setup/python-env /${DOMAIN}/cfg/
+COPY ./docker_setup/python-env /${DOMAIN}/
 COPY ./docker_setup/static.zip /${DOMAIN}/cfg/
 
 # Adicionar pasta do código do projeto
