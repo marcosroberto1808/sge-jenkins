@@ -27,3 +27,5 @@ Apagar containers:
 
     todas as imagems:
     docker rmi @(docker images -aq)
+
+    teste
