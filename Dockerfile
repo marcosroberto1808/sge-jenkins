@@ -36,37 +36,37 @@ RUN pip install virtualenv
 RUN virtualenv -p python3 /AppEnv
 
 # Adicionar diretórios e arquivos de configuracao
-RUN mkdir -p /${DOMAIN}/cfg/
-RUN mkdir -p /${DOMAIN}/logs/
-RUN mkdir -p /${DOMAIN}/codigo/
-COPY ./docker_setup/nginx.conf /${DOMAIN}/cfg/
-COPY ./docker_setup/django.params /${DOMAIN}/cfg/
-COPY ./docker_setup/django.ini /${DOMAIN}/cfg/
-COPY ./docker_setup/python-env /${DOMAIN}/
-COPY ./docker_setup/static.zip /${DOMAIN}/cfg/
+RUN mkdir -p /AppData/logs
+RUN mkdir -p /AppData/repositorios
+RUN mkdir -p /AppConfig/
+RUN mkdir -p /AppSocket/run
 
-# Adicionar pasta do código do projeto
-COPY . /${DOMAIN}/codigo/
+COPY ./docker_setup/. /AppConfig/
 
 # Add Usuario SSH , permissões de SUDO e arquivos para autenticacao do GIT
-RUN adduser --home=/${DOMAIN}/code -u 1000 ${SSH_USER}
+RUN adduser --home=/AppCode/ -u 1000 ${SSH_USER}
 RUN echo -e "$SSH_PASS\n$SSH_PASS" | (passwd --stdin ${SSH_USER})
 RUN echo "${SSH_USER} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${SSH_USER} && \
 chmod 0440 /etc/sudoers.d/${SSH_USER}
 
-# Arquivos de configuracao diversos
-RUN ln -s /${DOMAIN}/cfg/django.params /etc/nginx/conf.d/
-RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf_orig
-RUN ln -s /${DOMAIN}/cfg/nginx.conf /etc/nginx/
+# Adicionar pasta do código do projeto
+RUN mkdir -p /AppCode/${APPNAME}
+COPY . /AppCode/${APPNAME}/
+RUN source /AppEnv/bin/activate ; pip install -r /AppCode/${APPNAME}/require*.txt
+RUN unzip /AppConfig/static.zip -d /AppCode/${APPNAME}/app/
 
-# Copiando scripts principais e criando arquivos de log
+# Arquivos de configuracao diversos
+RUN ln -s /AppConfig/django.params /etc/nginx/conf.d/
+RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf_orig
+RUN ln -s /AppConfig/nginx.conf /etc/nginx/
+
+# Copiando scripts principais e ajustes de permissoes
 COPY ./docker_setup/run.sh /run.sh
 COPY ./docker_setup/setup.sh /setup.sh
 RUN chown ${SSH_USER}:nginx /*.sh
-RUN touch /${DOMAIN}/logs/${APPNAME}.access.log
-RUN touch /${DOMAIN}/logs/${APPNAME}.error.log
-RUN touch /${DOMAIN}/logs/${APPNAME}.uwsgi.log
-RUN chown -R ${SSH_USER}:nginx /${DOMAIN}
+RUN chown -R ${SSH_USER}:nginx /AppCode/ && chmod +x /AppCode/
+RUN chown -R ${SSH_USER}:nginx /AppData
+RUN chown -R ${SSH_USER}:nginx /AppSocket/run && chmod 775 /AppSocket/run
 RUN chmod 775 /*.sh
 RUN /setup.sh
 

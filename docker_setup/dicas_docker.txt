@@ -11,7 +11,8 @@ docker build -t sge-jenkins `
 
 #iniciar contaier após build
 
-    docker run -h sge-homolog -d -p 8080:8080 -p 422:22 --name=sge-homolog sge-jenkins
+    docker run -h sge-homolog -d -p 8090:8090 -p 422:22 --name=sge-homolog sge-jenkins
+    docker run -h sge-homolog -d -p 8090:8090 -p 422:22 --name=sge-homolog -v C:\Docker\Containers_Data\sge-homolog\:/AppData sge-jenkins
 
 
 Acessar o terminal do container diretamente com o comando abaixo:
