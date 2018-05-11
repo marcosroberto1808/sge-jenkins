@@ -13,7 +13,8 @@ docker build -t sge-jenkins `
 
     docker run -h sge-homolog -d -p 8090:8090 -p 422:22 --name=sge-homolog sge-jenkins
     docker run -h sge-homolog -d -p 8090:8090 -p 422:22 --name=sge-homolog -v C:\Docker\Containers_Data\sge-homolog\:/AppData sge-jenkins
-
+    docker run -h nginx-jenkins -d -p 80:80 --name=nginx-jenkins -v C:\Docker\Containers_Data\nginx-jenkins\:/etc/nginx/conf.d nginx
+    docker run -h nginx-jenkins -d -p 80:80 --name=nginx-jenkins nginx
 
 Acessar o terminal do container diretamente com o comando abaixo:
 
